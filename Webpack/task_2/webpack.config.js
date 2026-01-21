@@ -14,11 +14,11 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(jpe?g|png|svg)$/i,
+        test: /\.(gif|jpe?g|png|svg)$/i,
         type: 'asset/resource',
         generator: {
           filename: 'images/[name][ext]',
-        }
+        },
       },
    ],
   },
