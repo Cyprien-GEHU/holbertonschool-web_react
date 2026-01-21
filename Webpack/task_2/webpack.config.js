@@ -15,10 +15,27 @@ module.exports = {
       },
       {
         test: /\.(gif|jpe?g|png|svg)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'images/[name][ext]',
-        },
+        type: 'javascript/auto',
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'assets/',
+              publicPath: 'assets/',
+              esModule: false,
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              disable: false,
+              mozjpeg: {
+                progressive: true,
+              },
+            },
+          },
+        ],
       },
    ],
   },
