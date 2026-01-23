@@ -4,11 +4,11 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    all: {
-      header: './modules/header/header.js',
-      body: './modules/body/body.js',
-      footer: './modules/footer/footer.js'
-    }
+    all: [
+      './modules/header/header.js',
+      './modules/body/body.js',
+      './modules/footer/footer.js',
+    ],
   },
   output: {
     path: path.resolve(__dirname, 'public'),
