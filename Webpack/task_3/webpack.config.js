@@ -5,37 +5,37 @@ const path = require("path");
 module.exports = {
   entry: {
     all: [
-      './modules/header/header.js',
-      './modules/body/body.js',
-      './modules/footer/footer.js',
+      "./modules/header/header.js",
+      "./modules/body/body.js",
+      "./modules/footer/footer.js",
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, "public"),
+    filename: "[name].bundle.js",
   },
-   mode: "development",
-   module: {
+  mode: "development",
+  module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(gif|jpe?g|png|svg)$/i,
-        type: 'javascript/auto',
+        type: "javascript/auto",
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: '[name].[ext]',
-              outputPath: 'assets/',
-              publicPath: 'assets/',
+              name: "[name].[ext]",
+              outputPath: "assets/",
+              publicPath: "assets/",
               esModule: false,
             },
           },
           {
-            loader: 'image-webpack-loader',
+            loader: "image-webpack-loader",
             options: {
               disable: false,
               mozjpeg: {
@@ -45,7 +45,7 @@ module.exports = {
           },
         ],
       },
-   ],
+    ],
   },
   devServer: {
     host: "127.0.0.1",
@@ -53,9 +53,12 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({title: "task 3", chunks: ['vendors', 'header', 'body', 'footer']})
+    new HtmlWebpackPlugin({
+      title: "task 3",
+      chunks: ["vendors", "header", "body", "footer"],
+    }),
   ],
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
   optimization: {
     splitChunks: {
       chunks: "all",

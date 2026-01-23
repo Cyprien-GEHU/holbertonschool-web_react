@@ -1,6 +1,6 @@
-const $ = require('jquery');
-require('./footer.css');
+const $ = require("jquery");
+require("./footer.css");
 
-$(function() {
-    $('body').append('<p class="footer">Copyright - Holberton School</p>');
+$(function () {
+  $("body").append('<p class="footer">Copyright - Holberton School</p>');
 });
