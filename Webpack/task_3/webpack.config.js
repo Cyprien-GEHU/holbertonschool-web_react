@@ -48,21 +48,21 @@ module.exports = {
     ],
   },
   devServer: {
-    host: "127.0.0.1",
+    static: {
+      directory: path.resolve(__dirname, 'public')
+    },
     port: 8564,
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "task 3",
-      chunks: ["vendors", "header", "body", "footer"],
     }),
   ],
   devtool: "inline-source-map",
   optimization: {
     splitChunks: {
       chunks: "all",
-      name: "vendors",
     },
   },
 };
