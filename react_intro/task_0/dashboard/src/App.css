@@ -9,17 +9,17 @@
 }
 
 .App-header h1 {
-  color: #E0454B;
+  color: #e1003c;
 }
 
 .App-body {
   padding: 2rem;
   height: 25rem;
-  border-top: 2px solid #E0454B;
-  border-bottom: 2px solid #E0454B;
+  border-top: 2px solid #e1003c;
+  border-bottom: 2px solid #e1003c;
 }
 
 .App-footer {
   text-align: center;
-  font-size: italic;
+  font-style: italic;
 }
