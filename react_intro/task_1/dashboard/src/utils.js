@@ -3,7 +3,7 @@ export function getCurrentYear() {
 }
 
 export function getFooterCopy(isIndex) {
-  if (isIndex === True) {
+  if (isIndex === true) {
     return "Holberton School";
   } else {
     return "Holberton School main dashboard";
