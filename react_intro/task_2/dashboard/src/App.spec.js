@@ -10,16 +10,45 @@ test('texte h1 was wrote with "School Dashboard', async () => {
   expect(text).toBeInTheDocument();
 });
 
-test("the web site have 2 p elements", async () => {
-  render(<App />);
-  const para = screen.getAllByText(/./, { selector: "p" });
-  expect(para.length).toBe(2);
+test("render all p elements", async () => {
+  const { container } = render(<App />);
+  const bodyP = container.querySelector(".App-body p");
+  const footerP = container.querySelector(".App-footer p");
+
+  expect(bodyP).toBeInTheDocument();
+  expect(bodyP.textContent).toMatch(/Login to access the full dashboard/i);
+
+  expect(footerP).toBeInTheDocument();
+  expect(footerP.textContent).toMatch(/Copyright \d{4}/i);
 });
 
 test("Check is a image has rendered with alt", () => {
   render(<App />);
-  const picture = screen.getAllByRole("img");
-  expect(picture.length).toBe(1);
-  const alt = picture[0].getAttribute("alt") || "";
-  expect(alt.toLowerCase()).toBe("holberton logo");
+  const img = screen.getByAltText(/holberton logo/i);
+  expect(img).toBeInTheDocument();
+});
+
+test("render all input element ", () => {
+  const { container } = render(<App />);
+  const inpEmail = container.querySelector('input[type="email"]');
+  const inpPassword = container.querySelector('input[type="password"]');
+
+  expect(inpEmail).toBeInTheDocument();
+  expect(inpPassword).toBeInTheDocument();
+});
+
+test("render all label element", () => {
+  render(<App />);
+
+  const labelEmail = screen.getByText(/email/i);
+  const labelPassword = screen.getByText(/password/i);
+
+  expect(labelEmail).toBeInTheDocument();
+  expect(labelPassword).toBeInTheDocument();
+});
+
+test("render the button OK", () => {
+  render(<App />);
+  const button = screen.getByRole("button", { name: /ok/i });
+  expect(button).toBeInTheDocument();
 });
