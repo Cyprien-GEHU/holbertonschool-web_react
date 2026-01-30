@@ -1,0 +1,29 @@
+.root-notifications {
+  border: 3px #e1003c dotted;
+  padding: 0 1rem;
+}
+
+ul li {
+  color: red;
+}
+
+ul li:first-child {
+  color: blue;
+}
+
+button {
+  font-weight: bold;
+}
+
+[aria-label="Close"] {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: white;
+  border: none;
+}
+
+label,
+input {
+  margin-right: 0.75rem;
+}
