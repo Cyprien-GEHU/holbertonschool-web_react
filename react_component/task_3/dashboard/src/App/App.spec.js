@@ -4,7 +4,7 @@ import App from "./App";
 test("Return the title of the website", () => {
   render(<App />);
 
-  expect(screen.getByRole("heading")).toHaveTextContent(/School dashboard/i);
+  expect(screen.getByRole("heading", {name : /School dashboard/i})).toBeInTheDocument();
 });
 
 test("Return all paragrphs on the web site", () => {
@@ -83,3 +83,11 @@ describe("all test for logout function", () => {
     alertLog.mockRestore();
   });
 });
+
+describe("all test bodySection part", () => {
+  test("render new section title and default paragraph", () => {
+    render(<App />);
+    expect(screen.getByText(/News from the School/i)).toBeInTheDocument()
+    expect(screen.getByText(/Holberton School News goes here/i)).toBeInTheDocument()
+  })
+})

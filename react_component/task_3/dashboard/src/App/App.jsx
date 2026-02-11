@@ -1,36 +1,37 @@
 import "./App.css";
+import { Component } from "react";
 import Notifications from "../Notifications/Notifications.jsx";
 import Header from "../Header/Header.jsx";
 import Login from "../Login/Login.jsx";
 import Footer from "../Footer/Footer.jsx";
 import { getLatestNotification } from "../utils/utils.js";
 import CourseList from "../CourseList/CourseList.jsx";
-import { Component } from "react";
+import BodySection from "../BodySection/BodySection.jsx";
+import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom.jsx";
 
 class App extends Component {
   static defaultProps = {
     isLoggedIn: false,
-    logOut: () => {}
-  }
+    logOut: () => {},
+  };
 
   eventlistener = (event) => {
-    if (event.ctrlKey && event.key === "h")
-    {
+    if (event.ctrlKey && event.key === "h") {
       alert("Logging you out");
       this.props.logOut();
     }
-  }
+  };
 
   componentDidMount() {
-    document.addEventListener("keydown", this.eventlistener)
+    document.addEventListener("keydown", this.eventlistener);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.eventlistener)
+    document.removeEventListener("keydown", this.eventlistener);
   }
 
   render() {
-    const {isLoggedIn} = this.props;
+    const { isLoggedIn } = this.props;
 
     const notificationsList = [
       { id: 1, type: "default", value: "New course available" },
@@ -47,8 +48,19 @@ class App extends Component {
       <>
         <Notifications notifications={notificationsList} />
         <Header />
-        {isLoggedIn ? <CourseList courses={coursesList} /> : <Login />}
+        {isLoggedIn ? (
+          <BodySectionWithMarginBottom title="Course list">
+            <CourseList courses={coursesList} />
+          </BodySectionWithMarginBottom>
+        ) : (
+          <BodySectionWithMarginBottom title="Log in to continue">
+            <Login />
+          </BodySectionWithMarginBottom>
+        )}
         <Footer />
+        <BodySection title="News from the School">
+          <p>Holberton School News goes here</p>
+        </BodySection>
       </>
     );
   }
