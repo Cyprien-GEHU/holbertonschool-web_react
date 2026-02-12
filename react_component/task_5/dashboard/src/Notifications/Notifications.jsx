@@ -9,6 +9,10 @@ class Notifications extends Component {
     displayDrawer: false,
   };
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.notifications.length !== this.props.notifications.length;
+  }
+
   closeClick = () => {
     console.log("Close button has been clicked");
   };

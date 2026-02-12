@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import Notifications from "./Notifications";
-import { expect, test, jest, describe } from "@jest/globals";
+import { expect, test, jest, describe, afterEach } from "@jest/globals";
 import { getLatestNotification } from "../utils/utils";
 
 const notificationsList = [
@@ -8,6 +8,10 @@ const notificationsList = [
   { id: 2, type: "urgent", value: "New resume available" },
   { id: 3, type: "urgent", html: getLatestNotification() },
 ];
+
+afterEach(() => {
+  cleanup
+})
 
 describe("Notification part when the display drawer is false", () => {
   test("render the title with displayDrawer", () => {
@@ -151,3 +155,22 @@ describe("test all console log return when display owner is true and when we hav
     spyConsoleLog.mockRestore();
   })
 });
+
+describe("all test re-reder with purecomponent", () => {
+  test(" render the component when compenant doesn't have a re-render", () => {
+    const {rerender} = render (<Notifications displayDrawer={true} notifications={notificationsList} />);
+    const spyRender = jest.spyOn(Notifications.prototype, 'render');
+    rerender(<Notifications displayDrawer={true} notifications={notificationsList} />);
+    expect(spyRender).not.toHaveBeenCalled();
+    spyRender.mockRestore();
+  })
+
+  test("render the length of the notification when props change", () => {
+    const {rerender} = render (<Notifications displayDrawer={true} notifications={notificationsList} />);
+    const spyRender = jest.spyOn(Notifications.prototype, 'render');
+    const newList = [{ id: 192, type: 'default', value:"a new list !"}];
+    rerender(<Notifications displayDrawer={true} notifications={newList} />);
+    expect(spyRender).toHaveBeenCalled();
+    spyRender.mockRestore();
+  })
+})
