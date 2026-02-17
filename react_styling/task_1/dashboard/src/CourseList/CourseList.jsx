@@ -7,7 +7,7 @@ function CourseList({ courses = [] }) {
         <table className="w-full border border-gray-400 border-collapse">
           <tbody>
             <CourseListRow
-              isHeader={false}
+              isHeader={true}
               textFirstCell="No course available yet"
             />
           </tbody>
