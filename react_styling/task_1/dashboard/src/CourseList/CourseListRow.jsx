@@ -4,30 +4,31 @@ function CourseListRow({
   textSecondCell = null,
 }) {
   const bgColor = isHeader
-    ? "bg-[var(--color-table-header)] opacity-66"
-    : "bg-[var(--color-table-rows)] opacity-45";
+    ? "bg-[var(--color-table-header)] opacity-[66%]"
+    : "bg-[var(--color-table-rows)] opacity-[45%]";
 
-  const cellColor = "border border-gray-400 pl-2";
+  const cellTdColor = "border border-gray-400 pl-[8px]";
+  const cellThColor = "border border-gray-400";
 
   if (isHeader === true) {
     if (textSecondCell === null) {
       return (
         <tr className={bgColor}>
-          <th colSpan={2} className={cellColor}>{textFirstCell}</th>
+          <th colSpan={2} className={cellThColor}>{textFirstCell}</th>
         </tr>
       );
     }
     return (
       <tr className={bgColor}>
-        <th className={cellColor}>{textFirstCell}</th>
-        <th className={cellColor}>{textSecondCell}</th>
+        <th className={cellThColor}>{textFirstCell}</th>
+        <th className={cellThColor}>{textSecondCell}</th>
       </tr>
     );
   }
   return (
     <tr className={bgColor}>
-      <td className={cellColor}>{textFirstCell}</td>
-      <td className={cellColor}>{textSecondCell}</td>
+      <td className={cellTdColor}>{textFirstCell}</td>
+      <td className={cellTdColor}>{textSecondCell}</td>
     </tr>
   );
 }

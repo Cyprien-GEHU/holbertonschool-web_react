@@ -4,7 +4,7 @@ function CourseList({ courses = [] }) {
   if (courses.length === 0) {
     return (
       <div className="w-4/5 mx-auto mt-8">
-        <table className="w-full border border-gray-400 border-collapse">
+        <table className="w-full border border-collapse">
           <tbody>
             <CourseListRow
               isHeader={true}
@@ -17,7 +17,7 @@ function CourseList({ courses = [] }) {
   }
   return (
     <div className="w-4/5 mx-auto mt-8">
-      <table className="w-full border border-gray-400 border-collapse">
+      <table className="w-full border border-collapse">
         <thead>
           <CourseListRow textFirstCell="Available courses" isHeader={true} />
           <CourseListRow
