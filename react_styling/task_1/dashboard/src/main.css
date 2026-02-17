@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+:root {
   --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif;
   --color-table-header: #deb5b5;
   --color-table-rows: #CDCDCD;

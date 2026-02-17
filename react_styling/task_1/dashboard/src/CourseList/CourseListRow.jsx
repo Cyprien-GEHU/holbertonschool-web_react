@@ -3,9 +3,6 @@ function CourseListRow({
   textFirstCell = "",
   textSecondCell = null,
 }) {
-  const bgColor = isHeader
-    ? "bg-[var(--color-table-header)] bg-opacity-[66%]"
-    : "bg-[var(--color-table-rows)] bg-opacity-[45%]";
 
   const cellTdColor = "border border-gray-400 pl-[8px]";
   const cellThColor = "border border-gray-400";
@@ -13,22 +10,22 @@ function CourseListRow({
   if (isHeader === true) {
     if (textSecondCell === null) {
       return (
-        <tr className={bgColor}>
+        <tr className="bg-[rgba(222,181,181,0.66)]">
           <th colSpan={2} className={cellThColor}>{textFirstCell}</th>
         </tr>
       );
     }
     return (
-      <tr className={bgColor}>
+      <tr className="bg-[rgba(222,181,181,0.66)]">
         <th className={cellThColor}>{textFirstCell}</th>
         <th className={cellThColor}>{textSecondCell}</th>
       </tr>
     );
   }
   return (
-    <tr className={bgColor}>
-      <td className="border border-gray-400 pl-[8px]">{textFirstCell}</td>
-      <td className="border border-gray-400 pl-[8px]">{textSecondCell}</td>
+    <tr className="bg-[rgba(205,205,205,0.45)]">
+      <td className={cellTdColor}>{textFirstCell}</td>
+      <td className={cellTdColor}>{textSecondCell}</td>
     </tr>
   );
 }
