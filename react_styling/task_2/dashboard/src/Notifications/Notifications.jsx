@@ -25,11 +25,11 @@ class Notifications extends Component {
     return (
       <div className="w-full absolute flex flex-col items-end p-1.5">
         <div className="notification-title">
-          <p className="m-0 mb-1.5 text-right">Your notifications</p>
+          <p>Your notifications</p>
         </div>
 
         {displayDrawer && (
-          <div className="w-1/4 border-2 border-dashed border-(--main-color) p-[6px]">
+          <div className="w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
             {notifications.length === 0 ? (
               <p>No new notification for now</p>
             ) : (
