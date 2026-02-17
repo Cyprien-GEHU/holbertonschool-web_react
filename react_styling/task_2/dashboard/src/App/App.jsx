@@ -50,7 +50,7 @@ class App extends Component {
     ];
     return (
       <>
-        <Notifications notifications={notificationsList} />
+        <Notifications notifications={notificationsList} displayDrawer={true}/>
         <Header />
         {isLoggedIn ? (
           <BodySectionWithMarginBottom title="Course list">

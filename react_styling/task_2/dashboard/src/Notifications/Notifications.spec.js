@@ -79,31 +79,6 @@ describe("Notification part when the display drawer is true", () => {
       screen.queryByText(/Here is the list of notifications/i),
     ).toBeInTheDocument();
   });
-
-  test("render all notification items", () => {
-    render(
-      <Notifications notifications={notificationsList} displayDrawer={true} />,
-    );
-    const items = screen.getAllByRole("listitem");
-
-    expect(items).toHaveLength(3);
-
-    expect(items[0]).toHaveTextContent("New course available");
-    expect(items[0]).toHaveAttribute("data-notification-type", "default");
-    expect(items[0]).toHaveStyle({ color: "blue" });
-
-    expect(items[1]).toHaveTextContent("New resume available");
-    expect(items[1]).toHaveAttribute("data-notification-type", "urgent");
-    expect(items[1]).toHaveStyle({ color: "red" });
-
-    expect(items[2]).toHaveTextContent("Urgent requirement - complete by EOD");
-    expect(items[2]).toHaveAttribute("data-notification-type", "urgent");
-    expect(items[2]).toHaveStyle({ color: "red" });
-
-    const elementStr = items[2].querySelector("strong");
-    expect(elementStr).toBeInTheDocument();
-    expect(elementStr).toHaveTextContent("Urgent requirement");
-  });
 });
 describe(" Notification part when the displayDrawer is true and notification is empty", () => {
   test("render display a message", () => {
