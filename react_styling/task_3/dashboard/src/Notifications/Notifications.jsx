@@ -1,65 +1,55 @@
-import closeButton from "../assets/close-button.png";
-import NotificationItem from "./NotificationItem.jsx";
-import { Component } from "react";
+import React from 'react'
+import NotificationItem from './NotificationItem'
+import closeButton from '../assets/close-button.png'
 
-class Notifications extends Component {
-  static defaultProps = {
-    notifications: [],
-    displayDrawer: false,
-  };
+class Notifications extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.notifications.length !== this.props.notifications.length) {
+            return true
+        }
+        return false
+    }
+    markAsRead(id) {
+        console.log(`Notification ${id} has been marked as read`)
+    }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.notifications.length !== this.props.notifications.length;
-  }
-
-  closeClick = () => {
-    console.log("Close button has been clicked");
-  };
-
-  markAsRead = (id) => {
-    console.log(`Notification ${id} has been marked as read`);
-  };
-
-  render() {
-    const { notifications, displayDrawer } = this.props;
-    return (
-      <div className="w-full absolute flex flex-col items-end p-1.5">
-        <div className="notification-title">
-          <p>Your notifications</p>
-        </div>
-
-        {displayDrawer && (
-          <div className="w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
-            {notifications.length === 0 ? (
-              <p>No new notification for now</p>
-            ) : (
-              <>
-                <p>Here is the list of notifications</p>
-                <ul className="list-disc pl-4">
-                  {notifications.map((notification) => (
-                    <NotificationItem
-                      key={notification.id}
-                      id={notification.id}
-                      type={notification.type}
-                      value={notification.value}
-                      html={notification.html}
-                      markAsRead={this.markAsRead}
-                    />
-                  ))}
-                </ul>
-              </>
-            )}
-
-            <button
-            className="w-2 h-2 border-0 bg-transparent absolute top-12 right-[1.2rem]" 
-            aria-label="Close" onClick={this.closeClick}>
-              <img src={closeButton} alt="close button" />
-            </button>
-          </div>
-        )}
-      </div>
-    );
-  }
+    render() {
+        const { displayDrawer = false, notifications = [] } = this.props
+        return (
+            <>
+                <div className="notification-title absolute right-3 top-1">Your notifications</div>
+                {displayDrawer && (
+                    <div className="notification-items relative border-[3px] border-dotted border-[color:var(--main-color)] p-1.5 w-1/4 float-right mt-7">
+                        {notifications.length === 0 ? (
+                            <p>No new notification for now</p>
+                        ) : (
+                            <>
+                                <div className="relative">
+                                    <p className='m-0'>Here is the list of notifications</p>
+                                    <button className="absolute cursor-pointer right-0 top-0 bg-transparent"
+                                        onClick={() => console.log("Close button has been clicked")}
+                                        aria-label='Close'>
+                                        <img src={closeButton} alt="close-button" className="w-3 h-3" />
+                                    </button>
+                                    <ul className='list-[square] pl-5'>
+                                        {notifications.map((notification) => (
+                                            <NotificationItem
+                                                key={notification.id}
+                                                type={notification.type}
+                                                value={notification.value}
+                                                html={notification.html}
+                                                markAsRead={this.markAsRead}
+                                                id={notification.id}
+                                            />
+                                        ))}
+                                    </ul>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                )}
+            </>
+        )
+    }
 }
-
-export default Notifications;
+export default Notifications

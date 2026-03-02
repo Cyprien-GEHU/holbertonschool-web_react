@@ -1,33 +1,43 @@
 function CourseListRow({
-  isHeader = false,
-  textFirstCell = "",
-  textSecondCell = null,
+    isHeader= false, 
+    textFirstCell = "",
+    textSecondCell = null
 }) {
-
-  const cellTdColor = "border border-gray-400 pl-[8px]";
-  const cellThColor = "border border-gray-400";
-
-  if (isHeader === true) {
-    if (textSecondCell === null) {
-      return (
-        <tr className="bg-[rgba(222,181,181,0.66)]">
-          <th colSpan={2} className={cellThColor}>{textFirstCell}</th>
-        </tr>
-      );
+    const headerColor = "bg-[var(--color-table-header)]/[0.66]"
+    const rowColor = "bg-[var(--color-table-rows)]/[0.45]"
+    const headerBorder = "border border-gray-400"
+    const cellBorder = "border border-gray-400 pl-2"
+    if (isHeader) {
+        if (textSecondCell === null) {
+            return (
+                <tr className={headerColor}>
+                    <th className={headerBorder} colSpan="2">
+                        {textFirstCell}
+                    </th>
+                </tr>
+            )
+        }
+        return (
+            <tr className={headerColor}>
+                <th className={headerBorder}>
+                    {textFirstCell}
+                </th>
+                <th className={headerBorder}>
+                    {textSecondCell}
+                </th>
+            </tr>
+        )
     }
     return (
-      <tr className="bg-[rgba(222,181,181,0.66)]">
-        <th className={cellThColor}>{textFirstCell}</th>
-        <th className={cellThColor}>{textSecondCell}</th>
-      </tr>
-    );
-  }
-  return (
-    <tr className="bg-[rgba(205,205,205,0.45)]">
-      <td className={cellTdColor}>{textFirstCell}</td>
-      <td className={cellTdColor}>{textSecondCell}</td>
-    </tr>
-  );
+        <tr className={rowColor}>
+            <td className={cellBorder}>
+                {textFirstCell}
+            </td>
+            <td className={cellBorder}>
+                {textSecondCell}
+            </td>
+        </tr>
+    )
 }
 
-export default CourseListRow;
+export default CourseListRow

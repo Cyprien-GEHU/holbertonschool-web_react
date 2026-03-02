@@ -1,41 +1,47 @@
-import { PureComponent } from "react";
+import { PureComponent } from 'react'
+import { getLatestNotification } from '../utils/utils'
 
 class NotificationItem extends PureComponent {
-  handleclick = () => {
-    const { id, markAsRead } = this.props;
-    if (markAsRead) {
-      markAsRead(id);
+    static defaultProps = {
+        markAsRead: () => {},
+        type: "default",
+        html: "",
+        value: "",
+        id: 1
     }
-  };
 
-  render() {
-    const { type = null, html = null, value = null } = this.props;
-    const textColor = type === "default"
-    ? "text-[var(--default-notification-item)]"
-    : "text-[var(--urgent-notification-item)]";
-
-    if (html) {
-      return (
-        <li
-          data-notification-type={type}
-          className={textColor}
-          dangerouslySetInnerHTML={
-            typeof html === "object" ? html : { __html: html }
-          }
-          onClick={this.handleclick}
-        />
-      );
+    render() {
+        const { markAsRead, type, html, value, id } = this.props
+        const innerHtml = { __html: getLatestNotification() }
+        if (type === "default")
+            return (
+                <li onClick={() => markAsRead(id)}
+                    data-notification-type={type}
+                    className="text-[color:var(--default-notification-item)] pl-1">
+                    {value}
+                </li>
+            )
+        else if (type === "urgent" && html) {
+            return (
+                <li
+                    onClick={() => markAsRead(id)}
+                    data-notification-type={type}
+                    dangerouslySetInnerHTML={innerHtml}
+                    className="text-[color:var(--urgent-notification-item)] pl-1">
+                </li>
+            )
+        }
+        else if (type === "urgent") {
+            return (
+                <li
+                    onClick={() => markAsRead(id)}
+                    data-notification-type={type}
+                    className="text-[color:var(--urgent-notification-item)] pl-1"
+                >
+                    {value}
+                </li>
+            )
+        }
     }
-    return (
-      <li
-        data-notification-type={type}
-        className={textColor}
-        onClick={this.handleclick}
-      >
-        {value}
-      </li>
-    );
-  }
 }
-
-export default NotificationItem;
+export default NotificationItem

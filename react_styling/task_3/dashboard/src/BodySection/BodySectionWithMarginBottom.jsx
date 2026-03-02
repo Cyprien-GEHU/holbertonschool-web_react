@@ -1,11 +1,15 @@
+import React from "react";
 import BodySection from "./BodySection";
 
-function BodySectionWithMarginBottom({ title, children }) {
-  return (
-    <div className="bodySectionWithMargin">
-      <BodySection title={title}>{children}</BodySection>
-    </div>
-  );
+class BodySectionWithMarginBottom extends React.Component {
+    render() {
+        const { title, children } = this.props
+        return (
+        <div className="bodySectionWithMargin">
+            <BodySection title={title} children={children}/>
+        </div>
+        )
+    }
 }
 
-export default BodySectionWithMarginBottom;
+export default BodySectionWithMarginBottom

@@ -1,72 +1,81 @@
-import { Component } from "react";
-import Notifications from "../Notifications/Notifications.jsx";
-import Header from "../Header/Header.jsx";
-import Login from "../Login/Login.jsx";
-import Footer from "../Footer/Footer.jsx";
-import { getLatestNotification } from "../utils/utils.js";
-import CourseList from "../CourseList/CourseList.jsx";
-import BodySection from "../BodySection/BodySection.jsx";
-import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom.jsx";
-import WithLogging from "../HOC/WithLogging.jsx";
+import React from 'react'
+import BodySection from '../BodySection/BodySection'
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom'
+import Notifications from '../Notifications/Notifications'
+import Header from '../Header/Header'
+import LoginWithLogging from '../Login/Login'
+import Footer from '../Footer/Footer'
+import CourseListWithLogging from '../CourseList/CourseList'
+import { getLatestNotification } from '../utils/utils'
 
-class App extends Component {
+
+class App extends React.Component {
   static defaultProps = {
     isLoggedIn: false,
-    logOut: () => {},
-  };
+    logOut: () => { }
+  }
+  constructor(props) {
+    super(props)
 
-  eventlistener = (event) => {
-    if (event.ctrlKey && event.key === "h") {
-      alert("Logging you out");
-      this.props.logOut();
+    this.state = {
+      notificationsList: [
+        { id: 1, type: "default", value: "New course available" },
+        { id: 2, type: "urgent", value: "New resume available" },
+        { id: 3, type: "urgent", html: { __html: getLatestNotification() } },
+      ],
+      coursesList: [
+        { id: 1, name: "ES6", credit: 60 },
+        { id: 2, name: "Webpack", credit: 20 },
+        { id: 3, name: "React", credit: 40 }
+      ]
     }
-  };
+  }
+
+  handleLogout = (event) => {
+    if (event.ctrlKey && event.key === "h") {
+      alert('Logging you out')
+      this.props.logOut()
+    }
+  }
 
   componentDidMount() {
-    document.addEventListener("keydown", this.eventlistener);
+    document.addEventListener("keydown", this.handleLogout)
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.eventlistener);
+    document.removeEventListener("keydown", this.handleLogout)
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn = false } = this.props
+    const { notificationsList, coursesList } = this.state
 
-    const LWL = WithLogging(Login);
-    const CLWL = WithLogging(CourseList)
-
-    const notificationsList = [
-      { id: 1, type: "default", value: "New course available" },
-      { id: 2, type: "urgent", value: "New resume available" },
-      { id: 3, type: "urgent", html: getLatestNotification() },
-    ];
-
-    const coursesList = [
-      { id: 1, name: "ES6", credit: 60 },
-      { id: 2, name: "Webpack", credit: 20 },
-      { id: 3, name: "React", credit: 40 },
-    ];
     return (
       <>
-        <Notifications notifications={notificationsList} displayDrawer={true}/>
-        <Header />
-        {isLoggedIn ? (
-          <BodySectionWithMarginBottom title="Course list">
-            <CLWL courses={coursesList} />
-          </BodySectionWithMarginBottom>
-        ) : (
-          <BodySectionWithMarginBottom title="Log in to continue">
-            <LWL />
-          </BodySectionWithMarginBottom>
-        )}
-        <Footer />
-        <BodySection title="News from the School">
-          <p>Holberton School News goes here</p>
-        </BodySection>
+        <div className="relative px-3 min-h-screen">
+          <Notifications notifications={notificationsList} displayDrawer={true} />
+        <div className="flex-1">
+            <Header />
+          {isLoggedIn ? (
+            <BodySectionWithMarginBottom title="Course list">
+                <CourseListWithLogging courses={coursesList} />
+            </BodySectionWithMarginBottom>
+          ) : (
+            <BodySectionWithMarginBottom title="Log in to continue">
+                <LoginWithLogging />
+            </BodySectionWithMarginBottom>
+          )
+          }
+            <BodySection title="News from the School">
+              <p>
+                Holberton School News goes here
+              </p>
+            </BodySection>
+        </div>
+          <Footer />
+        </div>
       </>
-    );
+    )
   }
 }
-
-export default App;
+export default App
