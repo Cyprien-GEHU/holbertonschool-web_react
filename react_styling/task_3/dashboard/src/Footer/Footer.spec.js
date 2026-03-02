@@ -1,16 +1,11 @@
-import { render, screen } from "@testing-library/react";
-import Footer from "./Footer";
+import { render, screen } from '@testing-library/react'
+import Footer from './Footer'
+import { getFooterCopy, getCurrentYear } from '../utils/utils'
 
-describe("Footer part", () => {
-  test("render footer without crash", () => {
-    render(<Footer />);
-    const footerText = screen.getByText(/Copyright 2026 - holberton School/i);
-    expect(footerText).toBeInTheDocument();
-  });
+test('renders a p element string Copyright {the current year} - Holberton School, whenever the getFooterCopy() “isIndex” argument is set to true', () => {
+    render(<Footer isIndex={true}/>)
 
-  test("render copyright and the current year", () => {
-    render(<Footer />);
-    const copyFooter = screen.getByText(/Copyright \d{4} - holberton School/i);
-    expect(copyFooter).toBeInTheDocument();
-  });
-});
+    const currentYear = getCurrentYear()
+    const footerCopy = getFooterCopy(true)
+    expect(screen.getByText(new RegExp(`copyright ${currentYear} - ${footerCopy}`, 'i'))).toBeInTheDocument()
+})

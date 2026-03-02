@@ -1,25 +1,20 @@
-import { render, screen } from "@testing-library/react";
-import BodySection from "./BodySection";
+import { render, screen } from '@testing-library/react'
+import BodySection from './BodySection'
 
-describe("test all part bodysection", () => {
-  test("Render the heading with title prop value", () => {
-    render(<BodySection title="this is a title" />);
-    expect(screen.getByRole("heading", { level: 2 })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "this is a title",
-    );
-  });
+test('BodySection renders a heading with the title prop value', () => {
+    render(<BodySection title="test" />)
+    const testHeading = screen.getByRole('heading', {level: 2, name: /test/i})
+    expect(testHeading).toBeInTheDocument()
+})
 
-  test("Render any number of children", () => {
-    const children = [
-      <p key="1">first</p>,
-      <p key="2">second</p>,
-      <p key="3">third</p>,
-    ];
-    render(<BodySection title="this is a title">{children}</BodySection>);
-    expect(screen.getByText(/first/i)).toBeInTheDocument();
-    expect(screen.getByText(/second/i)).toBeInTheDocument();
-    expect(screen.getByText(/third/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/first|second|third/i)).toHaveLength(3);
-  });
-});
+test('BodySection renders any number of children passed to it ', () => {
+    render(<BodySection children="
+        <p>test paragraph</>
+        <div>test div</>
+        <span>test span</>
+        <section>test section</>" />)
+    expect(screen.getByText(/test paragraph/i)).toBeInTheDocument()
+    expect(screen.getByText(/test div/i)).toBeInTheDocument()
+    expect(screen.getByText(/test span/i)).toBeInTheDocument()
+    expect(screen.getByText(/test section/i)).toBeInTheDocument()
+})

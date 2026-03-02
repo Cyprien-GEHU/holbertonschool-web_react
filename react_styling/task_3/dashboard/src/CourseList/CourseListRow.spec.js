@@ -1,49 +1,23 @@
-import CourseListRow from "./CourseListRow";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from '@testing-library/react'
+import CourseListRow from './CourseListRow'
 
-describe("all test for course list row", () => {
-  test("when header is true and textsecond is null, render th with colspan=2", () => {
-    render(
-      <table>
-        <tbody>
-          <CourseListRow isHeader={true} textSecondCell={null} />
-        </tbody>
-      </table>
-    );
-    const head = screen.getAllByRole("columnheader");
-    expect(head).toHaveLength(1);
-    expect(head[0]).toHaveAttribute("colspan", "2");
-  });
+test("renders one column header with attribute colspan  = 2 when prop isHeader is true and textSecondCell is null", () => {
+    render(<table><tbody><CourseListRow isHeader={true} textSecondCell={null}/></tbody></table>)
 
-  test("when header is true and textsecond is not null render twh th", () => {
-    render(
-      <table>
-        <tbody>
-          <CourseListRow
-            isHeader={true}
-            textFirstCell="Course"
-            textSecondCell="Credit"
-          />
-        </tbody>
-      </table>
-    );
-    const head = screen.getAllByRole("columnheader");
-    expect(head).toHaveLength(2);
-  });
+    expect(screen.getAllByRole('columnheader')).toHaveLength(1)
+    expect(screen.getByRole('columnheader')).toHaveAttribute('colspan', '2')
+})
 
-  test("when header is false render 2 td with tr", () => {
-    render(
-      <table>
-        <tbody>
-          <CourseListRow
-            isHeader={false}
-          />
-        </tbody>
-      </table>
-    );
-    const row = screen.getByRole("row");
-    expect(row).toBeInTheDocument();
-    const cell = screen.getAllByRole("cell");
-    expect(cell).toHaveLength(2);
-  });
-});
+test("renders 2 <th> cells when prop isHeader is true and textSecondCell is not null", () => {
+    render(<table><tbody><CourseListRow isHeader={true} textSecondCell={""}/></tbody></table>)
+
+    expect(screen.getAllByRole('columnheader')).toHaveLength(2)
+})
+
+test("renders 2 <td> cells within a tr element when prop isHeader is false", () => {
+    render(<table><tbody><CourseListRow isHeader={false}/></tbody></table>)
+
+    const tr = screen.getByRole('row')
+    expect(tr).toBeInTheDocument()
+    expect(within(tr).getAllByRole('cell')).toHaveLength(2)
+})

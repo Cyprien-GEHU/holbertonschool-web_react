@@ -1,19 +1,15 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import NotificationItem from './NotificationItem.jsx';
+import { fireEvent, render, screen } from '@testing-library/react'
+import NotificationItem from './NotificationItem'
 
-afterEach(() => {
-  jest.restoreAllMocks()
-})
+test('markAsRead prop is called whenever the click event is triggered', () => {
+    const mockMarkAsRead = jest.fn()
+    render(<NotificationItem 
+        markAsRead={mockMarkAsRead}
+        type="default"
+        value="New course available"
+    />)
 
-test('should called the prop function on click event', async () => {
-  const mockProp = jest.fn()
-
-  render(<NotificationItem type="urgent" value="New resume available" markAsRead={mockProp} />);
-
-  const item = screen.getByRole('listitem');
-  const user = userEvent.setup()
-  await user.click(item)
-
-  expect(mockProp).toHaveBeenCalledTimes(1)
+    const listItem = screen.getByRole('listitem')
+    fireEvent.click(listItem)
+    expect(mockMarkAsRead).toHaveBeenCalledTimes(1)
 })

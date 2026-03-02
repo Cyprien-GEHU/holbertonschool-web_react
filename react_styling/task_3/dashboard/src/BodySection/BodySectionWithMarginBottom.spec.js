@@ -1,20 +1,23 @@
-import { render } from "@testing-library/react";
-import BodySectionWithMarginBottom from "./BodySectionWithMarginBottom";
+import { render, screen } from '@testing-library/react'
+import BodySectionWithMarginBottom from './BodySectionWithMarginBottom'
 
-describe("all test on the body margin bottom part", () => {
-  test("render the component contains a div with class bodySectionMargin", () => {
-    const { container } = render(
-      <BodySectionWithMarginBottom test="this is a test" />,
-    );
-    const div = container.querySelector(".bodySectionWithMargin");
-    expect(div).toBeInTheDocument();
-  });
+test('BodySectionWithMarginBottom component contains a div with the class bodySectionWithMargin', () => {
+    const  {container } = render(<BodySectionWithMarginBottom title="test">
+        <p>test</p>
+        </BodySectionWithMarginBottom>
+    )
 
-  test("render the body section component", () => {
-    const { container } = render(
-      <BodySectionWithMarginBottom test="this is a test" />,
-    );
-    const divBody = container.querySelector(".bodySection");
-    expect(divBody).toBeInTheDocument();
-  });
-});
+    const divWithBodySectionClass = container.querySelector('.bodySectionWithMargin')
+    expect(divWithBodySectionClass).toBeInTheDocument()
+})
+
+test('BodySectionWithMarginBottom component renders the BodySection component', () => {
+    render(
+        <BodySectionWithMarginBottom title="test title">
+            <p>test paragraph</p>
+        </BodySectionWithMarginBottom>
+    )
+    
+    expect(screen.getByRole('heading', { level: 2, name: /test title/i })).toBeInTheDocument()
+    expect(screen.getByText(/test paragraph/i)).toBeInTheDocument()
+})

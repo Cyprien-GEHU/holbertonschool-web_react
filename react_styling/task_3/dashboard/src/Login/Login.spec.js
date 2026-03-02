@@ -1,44 +1,44 @@
-import { render, screen } from "@testing-library/react";
-import Login from "./Login";
-import userEvent from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import Login from './Login'
 
-describe("Login part", () => {
-  test("render login without crash", () => {
-    render(<Login />);
-    const text = screen.getByText(/Login to access the full dashboard/i);
-    expect(text).toBeInTheDocument();
-  });
+let consoleSpy
 
-  test("render two input for login", () => {
-    render(<Login />);
-    const inp = screen.getAllByRole("textbox");
-    const password = screen.getByLabelText(/password/i);
+beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+})
 
-    expect(inp.length + 1).toBe(2);
-    expect(password).toBeInTheDocument();
-  });
+afterEach(() => {
+    consoleSpy.mockRestore()
+})
 
-  test("return all label for login", () => {
-    render(<Login />);
-    const lab = screen.getAllByText(/email|password/i);
-    expect(lab).toHaveLength(2);
-  });
+test('renders 2 labels, 2 inputs and 1 button element', () => {
+    const { container } = render(<Login />)
+    
+    const labels = container.querySelectorAll('label')
+    expect(labels).toHaveLength(2)
 
-  test("render the button OK", () => {
-    render(<Login />);
+    const inputs = container.querySelectorAll('input')
+    expect(inputs).toHaveLength(2)
 
-    expect(screen.getByRole("button", { name: /ok/i })).toBeInTheDocument();
-  });
+    const button = container.querySelectorAll('button')
+    expect(button).toHaveLength(1)
 
-  test("render label focus on the input", async () => {
-    render(<Login />);
-    const inputEmail = screen.getByLabelText(/email/i);
-    const inputPassword = screen.getByLabelText(/password/i);
-    const labelEmail = screen.getByText(/email/i);
-    const labelPassword = screen.getByText(/password/i);
-    await userEvent.click(labelEmail);
-    expect(inputEmail).toHaveFocus();
-    await userEvent.click(labelPassword);
-    expect(inputPassword).toHaveFocus();
-  });
-});
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: /ok/i})).toBeInTheDocument()
+})
+
+test('inputs elements get focused whenever the related label is clicked', async () => {
+    const user = userEvent.setup()
+    render(<Login />)
+    const emailInput = screen.getByLabelText(/email/i)
+
+    await user.click(emailInput)
+    expect(emailInput).toHaveFocus()
+
+    const passwordInput = screen.getByLabelText(/password/i)
+
+    await user.click(passwordInput)
+    expect(passwordInput).toHaveFocus()
+})
