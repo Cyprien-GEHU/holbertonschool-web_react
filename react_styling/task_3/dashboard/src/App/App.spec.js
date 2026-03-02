@@ -19,8 +19,8 @@ test('renders login and copyright paragraph with the correct content', async () 
 
 test('renders Email and Password label element', async () => {
     render(<App isLoggedIn={false}/>)
-    expect(screen.getByText(/^email:$/i)).toBeInTheDocument()
-    expect(screen.getByText(/^password:$/i)).toBeInTheDocument()
+    expect(screen.getByText(/^email$/i)).toBeInTheDocument()
+    expect(screen.getByText(/^password$/i)).toBeInTheDocument()
 })
 
 test('renders the Login component when isLoggedIn is false', () => {
