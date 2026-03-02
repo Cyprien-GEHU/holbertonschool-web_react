@@ -1,4 +1,15 @@
 #root {
+  height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.main-body {
+  height: 100%;
+}
+
+.root-notifications {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
