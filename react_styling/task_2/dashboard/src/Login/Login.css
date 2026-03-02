@@ -1,6 +1,5 @@
 .App-body {
-  padding: 2rem;
-  height: 25rem;
-  border-top: 2px solid #e1003c;
-  border-bottom: 2px solid #e1003c;
+  height: 100%;
+  margin-top: 20px;
+  margin-left: 20px
 }

@@ -1,21 +1,19 @@
-import "./Login.css";
+import WithLogging from '../HOC/WithLogging'
+import './Login.css'
 
 function Login() {
   return (
-    <div className="App-body">
-      <p>Login to access the full dashboard</p>
-
-      <div className="login-input">
-        <label htmlFor="email">Email:</label>
-        <input type="email" id="email" name="email" />
-
-        <label htmlFor="password">Password:</label>
-        <input type="password" id="password" name="password" />
+    <>
+      <div className='App-body'>
+        <p>Login to access the full dashboard</p>
+        <label htmlFor='email'>Email:</label>
+        <input type='email' id='email' />
+        <label htmlFor='password'>Password:</label>
+        <input type='password' id='password' />
+        <button>OK</button>
       </div>
-
-      <button>OK</button>
-    </div>
-  );
+    </>
+  )
 }
 
-export default Login;
+export default WithLogging(Login)
