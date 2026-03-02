@@ -91,3 +91,15 @@ describe("all test bodySection part", () => {
     expect(screen.getByText(/Holberton School News goes here/i)).toBeInTheDocument()
   })
 })
+
+test("renders 'Available courses' when isLoggedIn is true", () => {
+  render(<App isLoggedIn={true} />);
+  
+  // Vérifie que le texte du header "Available courses" est présent
+  expect(screen.getByText(/Available courses/i)).toBeInTheDocument();
+
+  // Vérifie que le texte "Login to access the full dashboard" n'est pas présent
+  expect(
+    screen.queryByText(/Login to access the full dashboard/i)
+  ).not.toBeInTheDocument();
+});
