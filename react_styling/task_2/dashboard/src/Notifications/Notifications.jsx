@@ -24,12 +24,16 @@ class Notifications extends Component {
     const { notifications, displayDrawer } = this.props;
     return (
       <div className="w-full absolute flex flex-col items-end p-1.5">
+        {/* Titre des notifications */}
         <div className="notification-title">
-          <p>Your notifications</p>
+          <p className="text-right">Your notifications</p>
         </div>
 
         {displayDrawer && (
-          <div className="w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
+          <div
+            className="w-1/4 border-2 border-dashed p-1.5 relative"
+            style={{ borderColor: "var(--main-color)" }}
+          >
             {notifications.length === 0 ? (
               <p>No new notification for now</p>
             ) : (
@@ -50,9 +54,12 @@ class Notifications extends Component {
               </>
             )}
 
+            {/* Bouton de fermeture */}
             <button
-            className="w-2 h-2 border-0 bg-transparent absolute top-12 right-[1.2rem]" 
-            aria-label="Close" onClick={this.closeClick}>
+              className="w-6 h-6 border-0 bg-transparent absolute top-3 right-3"
+              aria-label="Close"
+              onClick={this.closeClick}
+            >
               <img src={closeButton} alt="close button" />
             </button>
           </div>
