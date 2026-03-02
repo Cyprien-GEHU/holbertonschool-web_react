@@ -1,105 +1,107 @@
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+// import {expect, test} from '@jest/globals'
+import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import App from './App.jsx'
 
-test("Return the title of the website", () => {
-  render(<App />);
+test('should render title', () => {
+  render(<App />)
 
-  expect(screen.getByRole("heading", {name : /School dashboard/i})).toBeInTheDocument();
-});
-
-test("Return all paragrphs on the web site", () => {
-  render(<App />);
-
-  expect(screen.getByText(/Login to access the full dashboard/i));
-  expect(screen.getByText(/Copyright 2026 - holberton School/i));
-});
-
-test("return the picture", () => {
-  render(<App />);
-
-  expect(screen.getByAltText(/holberton logo/i)).toBeInTheDocument();
-});
-
-test("return all input for login", () => {
-  render(<App />);
-  const inp = screen.getAllByRole("textbox");
-  const password = screen.getByLabelText(/password/i);
-
-  expect(inp.length + 1).toBe(2);
-  expect(password).toBeInTheDocument();
-});
-
-test("return all label for login", () => {
-  render(<App />);
-  const lab = screen.getAllByText(/email|password/i);
-  expect(lab).toHaveLength(2);
-});
-
-test("render the button OK", () => {
-  render(<App />);
-
-  expect(screen.getByText(/ok/i));
-});
-
-test("render the login when isloggedIn is false", () => {
-  render(<App isLoggedIn={false} />);
-  expect(
-    screen.getByText(/Login to access the full dashboard/i),
-  ).toBeInTheDocument();
-  expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-});
-
-test("rend the courslist when isloggedIn is true", () => {
-  render(<App isLoggedIn={true} />);
-  expect(screen.getByText(/available courses/i)).toBeInTheDocument();
-  expect(
-    screen.queryByText(/Login to access the full dashboard/i),
-  ).not.toBeInTheDocument();
-});
-
-describe("all test for logout function", () => {
-  test("render the logout function when we use crtl + h", () => {
-    const logoutMock = jest.fn();
-    jest.spyOn(window, "alert").mockImplementation(() => {});
-    render(<App logOut={logoutMock} />);
-    const event = new KeyboardEvent("keydown", {
-      key: "h",
-      ctrlKey: true,
-    });
-    document.dispatchEvent(event);
-    expect(logoutMock).toHaveBeenCalledTimes(1);
-  });
-
-  test("render a alert when we do crtl + h", () => {
-    alertLog = jest.spyOn(window, "alert").mockImplementation(() => {});
-    render(<App />);
-    const event = new KeyboardEvent("keydown", {
-      key: "h",
-      ctrlKey: true,
-    });
-    document.dispatchEvent(event);
-    expect(alertLog).toHaveBeenCalledWith("Logging you out");
-    alertLog.mockRestore();
-  });
-});
-
-describe("all test bodySection part", () => {
-  test("render new section title and default paragraph", () => {
-    render(<App />);
-    expect(screen.getByText(/News from the School/i)).toBeInTheDocument()
-    expect(screen.getByText(/Holberton School News goes here/i)).toBeInTheDocument()
-  })
+  const title = screen.getByRole('heading', {level: 1})
+  expect(title).toBeInTheDocument()
+  expect(title).toHaveTextContent(/School dashboard/i)
 })
 
-test("renders 'Available courses' when isLoggedIn is true", () => {
-  render(<App isLoggedIn={true} />);
-  
-  // Vérifie que le texte du header "Available courses" est présent
-  expect(screen.getByText(/Available courses/i)).toBeInTheDocument();
+test('should render two paragraphs', () => {
+  render(<App />)
 
-  // Vérifie que le texte "Login to access the full dashboard" n'est pas présent
-  expect(
-    screen.queryByText(/Login to access the full dashboard/i)
-  ).not.toBeInTheDocument();
-});
+  expect(screen.getByText(/Login to access the full dashboard/i))
+  expect(screen.getByText(/Copyright 2026 - holberton School/i))
+})
+
+test('should render the image', () => {
+  render(<App />)
+
+  expect(screen.getByAltText(/holberton logo/i)).toBeInTheDocument()
+})
+
+test('should render two inputs for login', () => {
+  render(<App />)
+
+  const inputs = screen.getAllByRole('textbox')
+  const password = screen.getByLabelText(/password/i)
+
+  expect(password)
+  expect(inputs.length + 1).toBe(2)
+})
+
+test('should render two label elements', () => {
+  render(<App />)
+
+  const labels = screen.getAllByText(/email|password/i)
+
+  expect(labels).toHaveLength(2)
+})
+
+test('should render one button', () => {
+  render(<App />)
+
+  expect(screen.getByText(/ok/i))
+})
+
+// Implement functionnality to toggle rendering based on isLoggedIn
+test('should render Login form when isLoggedIn is false', () => {
+  render(<App isLoggedIn={false} />)
+
+  expect(screen.getByText(/Login/i))
+})
+
+test('should render CourseList table when isLoggedIn is true', () => {
+  render(<App isLoggedIn={true} />)
+
+  const table = screen.getByRole('table')
+
+  expect(table.id).toBe('CourseList')
+})
+
+// Clean up
+afterEach(() => {
+  jest.restoreAllMocks()
+})
+
+test('should call once the logOut function after shortcut', async () => {
+  jest.spyOn(window, 'alert').mockImplementation(() => {})
+  const mockProp = jest.fn()
+  const user = userEvent.setup()
+
+  render(<App isLoggedIn={false} logOut={mockProp} />)
+
+  await user.keyboard('{Control>}{h}{/Control}')
+
+  expect(mockProp.mock.calls).toHaveLength(1)
+})
+
+test('should called the alert function with correct text', async () => {
+  const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {})
+  const user = userEvent.setup()
+  const noop = () => {}
+
+  render(<App isLoggedIn={false} logOut={noop} />)
+
+  await user.keyboard('{Control>}{h}{/Control}')
+
+  expect(alertSpy).toHaveBeenCalledWith(
+    expect.stringMatching(/Logging you out/i)
+  )
+})
+
+test('should display by default body content', () => {
+  render(<App />)
+
+  const paragraph = screen.getByText(/Holberton School News goes here/i)
+  const title = screen.getByText(/News from the School/i)
+
+  expect(paragraph).toBeInTheDocument()
+  expect(paragraph).toHaveRole('paragraph')
+  expect(title).toBeInTheDocument()
+  expect(title).toHaveRole('heading')
+})

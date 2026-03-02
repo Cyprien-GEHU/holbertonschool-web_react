@@ -3,7 +3,7 @@ import CourseListRow from "./CourseListRow";
 function CourseList({ courses = [] }) {
   return (
     <div className="w-4/5 mx-auto mt-8">
-      <table className="w-full border-collapse border border-gray-400">
+      <table id="CourseList" className="w-full border-collapse border border-gray-400">
         {courses.length === 0 ? (
           <thead>
             <CourseListRow
