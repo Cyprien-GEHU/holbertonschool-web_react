@@ -51,7 +51,7 @@ class App extends Component {
 
     return (
       <>
-        <Notifications notifications={notificationsList} />
+        <Notifications notifications={notificationsList} displayDrawer={true}/>
         <Header />
 
         {isLoggedIn ? (
@@ -64,11 +64,10 @@ class App extends Component {
           </BodySectionWithMarginBottom>
         )}
 
-        <Footer />
-
         <BodySection title="News from the School">
           <p>Holberton School News goes here</p>
         </BodySection>
+        <Footer  isIndex={true} />
       </>
     );
   }
