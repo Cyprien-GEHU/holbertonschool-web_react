@@ -34,9 +34,6 @@ class App extends Component {
   render() {
     const { isLoggedIn } = this.props;
 
-    const LWL = WithLogging(Login);
-    const CLWL = WithLogging(CourseList)
-
     const notificationsList = [
       { id: 1, type: "default", value: "New course available" },
       { id: 2, type: "urgent", value: "New resume available" },
@@ -48,20 +45,27 @@ class App extends Component {
       { id: 2, name: "Webpack", credit: 20 },
       { id: 3, name: "React", credit: 40 },
     ];
+
+    // On garde le HOC pour Login seulement
+    const LoginWithLogging = WithLogging(Login);
+
     return (
       <>
-        <Notifications notifications={notificationsList} displayDrawer={true}/>
+        <Notifications notifications={notificationsList} />
         <Header />
+
         {isLoggedIn ? (
           <BodySectionWithMarginBottom title="Course list">
-            <CLWL courses={coursesList} />
+            <CourseList courses={coursesList} />
           </BodySectionWithMarginBottom>
         ) : (
           <BodySectionWithMarginBottom title="Log in to continue">
-            <LWL />
+            <LoginWithLogging />
           </BodySectionWithMarginBottom>
         )}
+
         <Footer />
+
         <BodySection title="News from the School">
           <p>Holberton School News goes here</p>
         </BodySection>
