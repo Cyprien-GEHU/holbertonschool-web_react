@@ -2,16 +2,18 @@ import CourseListRow from "./CourseListRow";
 
 function CourseList({ courses = [] }) {
   return (
-    <div className="w-4/5 mx-auto">
+    <div className="w-4/5 mx-auto mt-8">
       <table className="w-full border-collapse">
-        <thead>
-          {courses.length === 0 ? (
+        {courses.length === 0 ? (
+          <thead>
             <CourseListRow
               isHeader={true}
               textFirstCell="No course available yet"
             />
-          ) : (
-            <>
+          </thead>
+        ) : (
+          <>
+            <thead>
               <CourseListRow
                 isHeader={true}
                 textFirstCell="Available courses"
@@ -21,19 +23,20 @@ function CourseList({ courses = [] }) {
                 textFirstCell="Course name"
                 textSecondCell="Credit"
               />
-            </>
-          )}
-        </thead>
-        <tbody>
-          {courses.map((course) => (
-            <CourseListRow
-              key={course.id}
-              isHeader={false}
-              textFirstCell={course.name}
-              textSecondCell={course.credit}
-            />
-          ))}
-        </tbody>
+            </thead>
+
+            <tbody>
+              {courses.map((course) => (
+                <CourseListRow
+                  key={course.id}
+                  isHeader={false}
+                  textFirstCell={course.name}
+                  textSecondCell={course.credit}
+                />
+              ))}
+            </tbody>
+          </>
+        )}
       </table>
     </div>
   );
