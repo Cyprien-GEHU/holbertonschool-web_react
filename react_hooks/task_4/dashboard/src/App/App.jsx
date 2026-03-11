@@ -53,7 +53,7 @@ function App() {
     );
   }, []);
 
-  const valueContext = { user, logOut, logIn };
+  const valueContext = { user, logOut};
   return (
     <AppContext.Provider value={valueContext}>
       <div className="relative px-3 min-h-screen flex flex-col">

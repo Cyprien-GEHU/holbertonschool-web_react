@@ -7,11 +7,9 @@ export const defaultUser = {
 };
 
 export const defaultLogOut = () => {};
-export const defaultLogIn = () => {};
 
 const AppContext = React.createContext({
   user: defaultUser,
-  logIn: defaultLogIn,
   logOut: defaultLogOut,
 });
 

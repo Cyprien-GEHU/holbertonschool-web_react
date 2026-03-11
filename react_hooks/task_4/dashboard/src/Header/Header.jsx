@@ -19,7 +19,10 @@ function Header() {
         {user.isLoggedIn && (
           <section id="logoutSection" className="ml-auto">
             welcome <span className="font-bold">{user.email}</span>{" "}
-            <a className="italic" href="#" onClick={logOut}>
+            <a className="italic" href="#" onClick={(event) => {
+              event.preventDefault();
+              logOut();
+            }}>
               (logOut)
             </a>
           </section>
