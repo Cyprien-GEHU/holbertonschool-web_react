@@ -1,51 +1,35 @@
-import { useState, useCallback } from "react";
+import { useState, useMemo } from 'react';
 
-export default function useLogin(onLogin) {
-  //all user data get by input
-  const [formData, setFormData] = useState({ email: "", password: "" });
+function useLogin(onLogin) {
+  const [formData, setFormData] = useState({ email: '', password: '' });
 
-  // controle submit control part
-  const [enableSubmit, setEnableSubmit] = useState(false);
+  const enableSubmit = useMemo(() => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailValid = formData.email.length > 0 && regex.test(formData.email);
+    const passwordValid = formData.password.length >= 8;
+    return emailValid && passwordValid;
+  }, [formData]);
 
-  const validateForm = useCallback((email, password) => {
-    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const enableSubmit = regexEmail.test(email) && password.length >= 8;
-    setEnableSubmit(enableSubmit);
-  }, []);
+  function handleChangeEmail(e) {
+    const newEmail = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      email: newEmail,
+    }));
+  }
 
-  const handleChangeEmail = useCallback(
-    (event) => {
-      const email = event.target.value;
+  function handleChangePassword(e) {
+    const newPassword = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      password: newPassword,
+    }));
+  }
 
-      setFormData((prev) => {
-        const update = { ...prev, email };
-        validateForm(update.email, update.password);
-        return update;
-      });
-    },
-    [validateForm],
-  );
-
-  const handleChangePassword = useCallback(
-    (event) => {
-      const password = event.target.value;
-
-      setFormData((prev) => {
-        const update = { ...prev, password };
-        validateForm(update.email, update.password);
-        return update;
-      });
-    },
-    [validateForm],
-  );
-
-  const handleLogInSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-      onLogin(formData.email, formData.password);
-    },
-    [formData, onLogin],
-  );
+  function handleLoginSubmit(e) {
+    e.preventDefault();
+    onLogin(formData.email, formData.password);
+  }
 
   return {
     email: formData.email,
@@ -53,6 +37,8 @@ export default function useLogin(onLogin) {
     enableSubmit,
     handleChangeEmail,
     handleChangePassword,
-    handleLogInSubmit,
+    handleLoginSubmit,
   };
 }
+
+export default useLogin;
