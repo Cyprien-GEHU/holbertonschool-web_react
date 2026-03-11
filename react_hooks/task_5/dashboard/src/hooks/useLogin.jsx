@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-export default function useLogin(logIn) {
+export default function useLogin(onLogin) {
   //all user data get by input
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -42,9 +42,9 @@ export default function useLogin(logIn) {
   const handleLogInSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      logIn(formData.email, formData.password);
+      onLogin(formData.email, formData.password);
     },
-    [formData, logIn],
+    [formData, onLogin],
   );
 
   return {
