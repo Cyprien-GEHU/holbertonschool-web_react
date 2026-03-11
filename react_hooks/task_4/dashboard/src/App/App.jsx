@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import BodySection from "../BodySection/BodySection";
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
 import Notifications from "../Notifications/Notifications";
@@ -8,21 +8,12 @@ import Footer from "../Footer/Footer";
 import CourseListWithLogging from "../CourseList/CourseList";
 import { getLatestNotification } from "../utils/utils";
 import AppContext, { defaultUser } from "../Context/context";
+import axios from "axios";
 
 function App() {
-  // state part
-  const [notifications, setNotifications] = useState([
-    { id: 1, type: "default", value: "New course available" },
-    { id: 2, type: "urgent", value: "New resume available" },
-    { id: 3, type: "urgent", html: { __html: getLatestNotification() } },
-  ]);
-
-  const [courses] = useState([
-    { id: 1, name: "ES6", credit: 60 },
-    { id: 2, name: "Webpack", credit: 20 },
-    { id: 3, name: "React", credit: 40 },
-  ]);
-
+  // use state part
+  const [notifications, setNotifications] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState(defaultUser);
 
@@ -53,7 +44,45 @@ function App() {
     );
   }, []);
 
-  const valueContext = { user, logOut};
+  // axios avec useEffect
+  useEffect(() => {
+    const NotifFetch = async () => {
+      try {
+        const res = await axios.get("/notifications.json");
+        const notifHtml = res.data.map((notif) => {
+          if (notif.id === 3)
+            return { ...notif, html: { __html: getLatestNotification() } };
+          return notif;
+        });
+        setNotifications(notifHtml);
+      } catch (err) {
+        if (process.env.NODE_ENV === "development") {
+          console.error("Failed to fetch notifications:", err);
+        }
+      }
+    };
+    NotifFetch();
+  }, []);
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      const fetchCourses = async () => {
+        try {
+          const res = await axios.get("/courses.json");
+          setCourses(res.data);
+        } catch (error) {
+          if (process.env.NODE_ENV === "development") {
+            console.error("Failed to fetch courses:", error);
+          }
+        }
+      };
+      fetchCourses();
+    } else {
+      setCourses([]);
+    }
+  }, [user]);
+
+  const valueContext = { user, logOut };
   return (
     <AppContext.Provider value={valueContext}>
       <div className="relative px-3 min-h-screen flex flex-col">
