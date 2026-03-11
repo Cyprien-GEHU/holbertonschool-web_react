@@ -32,7 +32,6 @@ test("renders the Login component when isLoggedIn is false", () => {
   ).toBeInTheDocument();
 });
 
-
 test("check that a title with the text News from the School, and a paragraph element with the text Holberton School News goes here are displayed by default in the App component", () => {
   render(<App />);
   const bodySectionTitle = screen.getByText(/news from the school/i);
@@ -60,4 +59,74 @@ test("render the message notification and remove the notification when we click 
   const TwoItems = screen.getAllByRole('listitem');
   expect(TwoItems).toHaveLength(2);
   logspy.mockRestore();
+});
+
+describe('App Component Functionality', () => {
+
+  test('handleDisplayDrawer and handleHideDrawer toggle displayDrawer state', () => {
+    render(<App />);
+
+    // "Your notifications" title exists
+    const notifTitle = screen.getByText(/Your notifications/i);
+    expect(notifTitle).toBeInTheDocument();
+
+    // Click to open drawer
+    fireEvent.click(notifTitle);
+    let notifDrawer = screen.getByText(/Here is the list of notifications/i);
+    expect(notifDrawer).toBeInTheDocument();
+
+    // Click the close button in drawer
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    fireEvent.click(closeButton);
+
+    // Drawer should be hidden
+    expect(screen.queryByText(/Here is the list of notifications/i)).not.toBeInTheDocument();
+  });
+
+  test('logIn function updates user state correctly', () => {
+    render(<App />);
+
+    // Email and password inputs
+    const emailInput = screen.getByLabelText(/Email:/i);
+    const passwordInput = screen.getByLabelText(/Password:/i);
+    const submitButton = screen.getByRole('button', { name: /ok/i });
+
+    // Fill in credentials
+    fireEvent.change(emailInput, { target: { value: 'testuser@gmail.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'mypassword123' } });
+
+    // Submit login form
+    fireEvent.click(submitButton);
+
+    // Check that welcome message is displayed
+    const welcomeText = screen.getByText(/welcome/i);
+    expect(welcomeText).toHaveTextContent('testuser@gmail.com');
+
+    // "Course list" section should be visible
+    const courseListTitle = screen.getByText(/Course list/i);
+    expect(courseListTitle).toBeInTheDocument();
+  });
+
+  test('logOut function resets user state correctly', () => {
+    render(<App />);
+
+    // Log in first
+    const emailInput = screen.getByLabelText(/Email:/i);
+    const passwordInput = screen.getByLabelText(/Password:/i);
+    const submitButton = screen.getByRole('button', { name: /ok/i });
+    fireEvent.change(emailInput, { target: { value: 'testuser@gmail.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'mypassword123' } });
+    fireEvent.click(submitButton);
+
+    // Click logOut link
+    const logoutLink = screen.getByText(/\(logOut\)/i);
+    fireEvent.click(logoutLink);
+
+    // Welcome message should disappear
+    expect(screen.queryByText(/welcome/i)).not.toBeInTheDocument();
+
+    // Login form should reappear
+    expect(screen.getByText(/Log in to continue/i)).toBeInTheDocument();
+  });
+
 });
