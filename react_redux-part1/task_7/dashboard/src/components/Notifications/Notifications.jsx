@@ -5,7 +5,7 @@ import NotificationItem from "../NotificationItem/NotificationItem";
 import { useSelector, useDispatch } from "react-redux";
 import {
   markNotificationAsRead,
-  showDrawner,
+  showDrawer,
   hideDrawer,
 } from "../../features/notifications/notificationsSlice";
 import { useCallback } from "react";
@@ -106,8 +106,8 @@ const Notifications = memo(function Notifications() {
   const handleHideDrawer = useCallback(() => {
     dispatch(hideDrawer());
   }, [dispatch]);
-  
-  const markNotificationAsRead = useCallback(
+
+  const handleMarkNotificationAsRead = useCallback(
     (id) => {
       dispatch(markNotificationAsRead(id));
     },
@@ -118,7 +118,7 @@ const Notifications = memo(function Notifications() {
     <>
       <div
         className={css(styles.menuItem)}
-        onClick={() => handleDisplayDrawer()}
+        onClick={handleDisplayDrawer}
       >
         Your notifications
       </div>
@@ -128,7 +128,7 @@ const Notifications = memo(function Notifications() {
             <>
               <p className={css(styles.p)}>Here is the list of notifications</p>
               <button
-                onClick={() => handleHideDrawer()}
+                onClick={handleHideDrawer}
                 aria-label="Close"
                 className={css(styles.button)}
               >
@@ -142,7 +142,7 @@ const Notifications = memo(function Notifications() {
                     type={notification.type}
                     value={notification.value}
                     html={notification.html}
-                    markAsRead={markNotificationAsRead}
+                    markAsRead={handleMarkNotificationAsRead}
                   />
                 ))}
               </ul>
