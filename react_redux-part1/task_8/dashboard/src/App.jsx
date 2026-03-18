@@ -27,7 +27,7 @@ export default function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(fetchNotifications());
+      dispatch(fetchCourses());
     }
   }, [isLoggedIn, dispatch]);
 
