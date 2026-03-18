@@ -5,7 +5,7 @@ import notificationReducers from "../features/notifications/notificationsSlice";
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    notification: notificationReducers,
+    notifications: notificationReducers,
     courses: coursesReducers
 });
 
