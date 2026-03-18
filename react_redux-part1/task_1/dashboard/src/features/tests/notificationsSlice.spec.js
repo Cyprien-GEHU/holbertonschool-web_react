@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import mockAxios from "jest-mock-axios";
-import axios from "axios";
 import notificationsReducer, {
   fetchNotifications,
   markNotificationAsRead,
