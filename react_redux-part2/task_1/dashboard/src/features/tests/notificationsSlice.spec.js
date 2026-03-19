@@ -15,7 +15,7 @@ afterEach(() => {
 describe('notificationsSlice', () => {
   const initialState = {
     notifications: [],
-    displayDrawer: true,
+    loading: false,
   };
 
   it('should return the correct initial state by default', () => {
