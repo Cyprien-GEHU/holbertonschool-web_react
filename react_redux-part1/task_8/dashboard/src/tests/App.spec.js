@@ -4,6 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import App from "../App";
 import rootReducer from "../app/rootReducer";
 import mockAxios from "jest-mock-axios";
+import * as coursesSlice from "../features/courses/coursesSlice";
 
 afterEach(() => {
   mockAxios.reset();
@@ -73,4 +74,32 @@ test("App renders CourseList when isLoggedIn is true", () => {
 
   // Vérifie que la section Course list est affichée
   expect(screen.getByText(/Course list/i)).toBeInTheDocument();
+});
+
+test("App fetches courses only when isLoggedIn is true", () => {
+  const fetchCoursesSpy = jest.spyOn(coursesSlice, "fetchCourses");
+
+  renderWithStore({
+    auth: {
+      user: null,
+      isLoggedIn: false,
+    },
+    notifications: { notifications: [], displayDrawer: false },
+    courses: { courses: [] },
+  });
+
+  expect(fetchCoursesSpy).not.toHaveBeenCalled();
+
+  fetchCoursesSpy.mockClear();
+
+  renderWithStore({
+    auth: {
+      user: { email: "test@test.com", password: "pass" },
+      isLoggedIn: true,
+    },
+    notifications: { notifications: [], displayDrawer: false },
+    courses: { courses: [] },
+  });
+
+  expect(fetchCoursesSpy).toHaveBeenCalled();
 });
