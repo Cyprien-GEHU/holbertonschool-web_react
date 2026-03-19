@@ -8,7 +8,7 @@ const initialState = {
 
 const API_BASE_URL = "http://localhost:5173";
 const ENDPOINTS = {
-  notifications: `${API_BASE_URL}/courses.json`,
+  courses: `${API_BASE_URL}/courses.json`,
 };
 
 export const fetchCourses = createAsyncThunk(
