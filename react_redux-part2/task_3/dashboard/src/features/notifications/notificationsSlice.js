@@ -1,0 +1,62 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const initialState = {
+  notifications: [],
+  loading: false,
+};
+
+const API_BASE_URL = "http://localhost:5173";
+const ENDPOINTS = {
+  notifications: `${API_BASE_URL}/notifications.json`,
+};
+
+export const fetchNotifications = createAsyncThunk(
+  "notifications/fetchNotifications",
+  async () => {
+    const res = await axios.get(ENDPOINTS.notifications);
+    const data = res.data.notifications || res.data;
+
+    const updateFetch = 
+    data
+    .filter((notif) => notif.context.isRead === false)
+    .map((notification) => ({
+      id: notification.id,
+      type: notification.context.type,
+      value: notification.context.value,
+      isRead: notification.context.isRead
+    }));
+    return updateFetch;
+  },
+);
+
+const notificationsSlice = createSlice({
+  name: "notifications",
+  initialState,
+  reducers: {
+    markNotificationAsRead: (state, action) => {
+      const notifId = action.payload;
+      console.log(`Marking notification ${notifId} as read`);
+      state.notifications = state.notifications.filter(
+        (notif) => notif.id !== notifId,
+      );
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchNotifications.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchNotifications.fulfilled, (state, action) => {
+        state.notifications = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchNotifications.rejected, (state) => {
+        state.loading = false;
+      });
+  },
+});
+
+export const { markNotificationAsRead } = notificationsSlice.actions;
+
+export default notificationsSlice.reducer;
